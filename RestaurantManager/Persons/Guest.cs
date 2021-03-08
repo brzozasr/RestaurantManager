@@ -8,38 +8,31 @@ namespace RestaurantManager.Persons
 {
     public class Guest : Person
     {
-        public bool IsOrdered { get; private set; } = false;
-        private Order _order;
+        public bool IsOrdered { get; set; } = false;
+        public Order Order { get; }
 
         public Guest(string name, Order order) : base(name)
         {
-            _order = order;
-            _order.GuestOrderId = this.Id;
-            _order.OrderStatus = OrderStatus.Accepted;
+            Order = order;
+            Order.GuestOrderId = this.Id;
         }
 
         public override void DoActivity(IEnumerable<Person> persons)
         {
-            var waitersAndGuests = persons.Where(p => p is Waiter || p is Guest).ToList();
+            var guests = persons.Where(p => p is Guest).ToList();
+            int intRandom = Utils.Random.Next(1, 201);
 
-            foreach (var waitersAndGuest in waitersAndGuests)
+            foreach (var person in guests)
             {
-                if (waitersAndGuest is Waiter {IsBusy: false} waiter && IsOrdered == false)
-                {
-                    waiter.Orders.Enqueue(_order);
-
-                    IsOrdered = true;
-                    return;
-                }
-
-                if (waitersAndGuest is Guest {IsOrdered: true} guest
-                    && guest.Id != Id && guest.Orders.Count == 1 && Orders.Count == 1)
+                // Switch orders between guests
+                if (person is Guest {IsOrdered: true} guest && intRandom == 1
+                    && guest.Id != Id && guest.Orders.Count > 0 && Orders.Count > 0)
                 {
                     var otherGuestOrder = guest.Orders.Peek();
                     var myOrder = Orders.Peek();
 
                     if (otherGuestOrder.IsSwitched == false && otherGuestOrder.OrderStatus == OrderStatus.Released && 
-                         myOrder.IsSwitched == false && myOrder.OrderStatus == OrderStatus.Released)
+                        myOrder.IsSwitched == false && myOrder.OrderStatus == OrderStatus.Released)
                     {
                         otherGuestOrder = guest.Orders.Dequeue();
                         otherGuestOrder.IsSwitched = true;

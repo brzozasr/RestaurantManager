@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Order
+{
+    + Guid OrderId
+    + Guid GuestOrderId
+    + OrderStatus OrderStatus
+    + bool IsSwitched
+    + int TimeCooking
+}
+
+abstract class Person
+{
+    + Queue<Order> Orders
+    + string Name
+    + Guid Id
+    + {abstract} void DoActivity(IEnumerable<Person> persons)
+}
+
+class Chef
+{
+    + override void DoActivity(IEnumerable<Person> persons)
+    - bool HasCookedOrder()
+}
+
+class Waiter
+{
+    - bool IsBusy
+    + override void DoActivity(IEnumerable<Person> persons)
+}
+
+class Guest
+{
+    + bool IsOrdered
+    + Order Order
+    + override void DoActivity(IEnumerable<Person> persons)
+}
+
+class Restaurant
+{
+    + List<Person> Person
+    + void Update()
+    + void Display()
+}
+
+Person <|-- Chef
+Person <|-- Waiter
+Person <|-- Guest
+Order <.. Guest
+Restaurant --o Person
+
+enum OrderStatus
+{
+    Waiting,
+    Accepted,
+    HandedOverToCooking,
+    Cooked,
+    HandedOverToWaiter,
+    Released,
+}
+
+@enduml

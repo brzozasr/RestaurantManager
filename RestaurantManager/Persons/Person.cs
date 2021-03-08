@@ -14,6 +14,7 @@ namespace RestaurantManager.Persons
         {
             Name = name;
             Id = Guid.NewGuid();
+            Orders = new Queue<Order>();
         }
 
         public abstract void DoActivity(IEnumerable<Person> persons);

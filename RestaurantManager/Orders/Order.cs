@@ -14,6 +14,7 @@ namespace RestaurantManager.Orders
         public Order()
         {
             OrderId = Guid.NewGuid();
+            OrderStatus = OrderStatus.Waiting;
             TimeCooking = 3;
         }
     }
