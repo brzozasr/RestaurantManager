@@ -6,7 +6,7 @@ namespace RestaurantManager.Persons
 {
     public abstract class Person
     {
-        public Queue<Order> Orders { get; set; }
+        public Queue<Order> Orders { get; }
         public string Name { get; }
         public Guid Id { get; }
 

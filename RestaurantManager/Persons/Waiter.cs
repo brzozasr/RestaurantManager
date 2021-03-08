@@ -8,7 +8,7 @@ namespace RestaurantManager.Persons
 {
     public class Waiter : Person
     {
-        private bool IsBusy { get; set; } = false;
+        private bool IsBusy { get; set; }
         
         public Waiter(string name) : base(name)
         {

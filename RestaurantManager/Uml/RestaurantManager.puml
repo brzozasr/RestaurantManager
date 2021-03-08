@@ -48,7 +48,7 @@ Person <|-- Chef
 Person <|-- Waiter
 Person <|-- Guest
 Order <.. Guest
-Restaurant --o Person
+Restaurant o-- Person
 
 enum OrderStatus
 {

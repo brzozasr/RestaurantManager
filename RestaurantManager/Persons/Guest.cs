@@ -8,7 +8,7 @@ namespace RestaurantManager.Persons
 {
     public class Guest : Person
     {
-        public bool IsOrdered { get; set; } = false;
+        public bool IsOrdered { get; set; }
         public Order Order { get; }
 
         public Guest(string name, Order order) : base(name)
